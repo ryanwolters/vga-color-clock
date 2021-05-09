@@ -6,7 +6,7 @@
 module hvsync_gen(clk, h_sync, v_sync, onscreen);
 input clk;
 output h_sync, v_sync, onscreen;
-
+wire onscreen, h_onscreen, v_onscreen;
 
 // generate horizontal counter
 reg[9:0] h_count;
@@ -30,7 +30,33 @@ else
 	v_count <= v_count + 1;
 end
 
-// generate hv_sync
-// at signal
+// generate h_sync
+always@(posedge clk)
+begin
+if(h_count == 10'd8)
+	h_sync <= 1'b0;
+else if(h_count == 10'd96)
+	h_sync <= 1'b1;
+else if(h_count == 10'd152)
+	h_onscreen <= 1'b1;
+else if(h_count == 10'd792)
+	h_onscreen <= 1'b0;
+end
+
+// generate v_sync
+always@(posedge clk)
+begin
+if(v_count == 10'd2)
+	v_sync <= 1'b0;
+else if(v_count == 10'd4)
+	v_sync <= 1'b1;
+else if(v_count == 10'd37)
+	v_onscreen <= 1'b1;
+else if(v_count == 10'd517)
+	v_onscreen <= 1'b0;
+end
 
 // generate onscreen flag
+wire onscreen = h_onscreen & v_onscreen;
+
+endmodule
