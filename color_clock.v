@@ -5,6 +5,7 @@ input clk_50;
 output h_sync, v_sync, R, G, B, clk;
 
 // gen clk signal
+reg clk;
 always@(posedge clk_50)
 	clk = ~clk;
 
@@ -23,8 +24,8 @@ begin
 end
 
 // color pattern
-assign R = color[0] & onscreen;
-assign G = color[1] & onscreen;
-assign B = color[2] & onscreen;
+assign R = onscreen;
+assign G = onscreen;
+assign B = onscreen; 
 
 endmodule

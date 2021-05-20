@@ -5,8 +5,9 @@
 
 module hvsync_gen(clk, h_sync, v_sync, onscreen);
 input clk;
-output h_sync, v_sync, onscreen;
-wire onscreen, h_onscreen, v_onscreen;
+output reg h_sync, v_sync;
+output wire onscreen;
+reg h_onscreen, v_onscreen;
 
 // generate horizontal counter
 reg[9:0] h_count;
@@ -57,6 +58,6 @@ else if(v_count == 10'd517)
 end
 
 // generate onscreen flag
-wire onscreen = h_onscreen & v_onscreen;
+assign onscreen = (h_onscreen & v_onscreen);
 
 endmodule
